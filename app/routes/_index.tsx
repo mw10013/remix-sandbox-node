@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 // @ts-expect-error ts(7016)
 import * as base32 from "thirty-two";
 import { Buffer } from "node:buffer";
+import { generateTOTP } from "@epic-web/totp";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,11 +14,13 @@ export const meta: MetaFunction = () => {
 
 export function loader() {
   const buf = Buffer.from("hello world", "utf8");
+  const totp = generateTOTP({});
   return {
     encode: base32.encode("node").toString(),
     decode: base32.decode("NZXWIZI=").toString(),
     buf: buf.toString(),
     buf64: buf.toString("base64"),
+    totp,
   };
 }
 
