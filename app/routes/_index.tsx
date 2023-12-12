@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 // @ts-expect-error ts(7016)
 import * as base32 from "thirty-two";
+import { Buffer } from "node:buffer";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,9 +12,12 @@ export const meta: MetaFunction = () => {
 };
 
 export function loader() {
+  const buf = Buffer.from("hello world", "utf8");
   return {
     encode: base32.encode("node").toString(),
     decode: base32.decode("NZXWIZI=").toString(),
+    buf: buf.toString(),
+    buf64: buf.toString("base64"),
   };
 }
 
